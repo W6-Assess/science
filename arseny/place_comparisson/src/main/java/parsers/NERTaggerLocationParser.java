@@ -21,7 +21,7 @@ public class NERTaggerLocationParser {
 
     }
 
-    private static void storeResultsToFile(String filename, Map<Integer, List<String>> locationMap) {
+    public static void storeResultsToFile(String filename, Map<Integer, List<String>> locationMap) {
         try {
             PrintWriter printWriter = new PrintWriter(filename);
             printWriter.println(locationMap.size());
