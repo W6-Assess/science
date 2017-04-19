@@ -10,6 +10,7 @@ import edu.stanford.nlp.simple.Sentence;
 import edu.stanford.nlp.trees.*;
 
 import java.io.StringReader;
+import java.sql.Time;
 import java.util.*;
 
 import static parsers.NERTaggerLocationParser.storeResultsToFile;
@@ -41,6 +42,7 @@ public class DependencyLocationParser {
             String locationResultPath = args[2];
             MyFileReader myFileReader = new MyFileReader();
             Map<Integer, List<String>> locationMap = new HashMap<>();
+            long currentTimeMillis = System.currentTimeMillis();
             for (int i = 0; i < dataSetSize; i++) {
                 String file = myFileReader.getFile(path + i + ".txt");
                 if (!file.isEmpty()) {
@@ -53,6 +55,7 @@ public class DependencyLocationParser {
                 }
                 System.out.println(i);
             }
+            System.out.println(new Date(currentTimeMillis).toString() + new Date(System.currentTimeMillis()).toString());
             storeResultsToFile(locationResultPath, locationMap);
         }
     }
