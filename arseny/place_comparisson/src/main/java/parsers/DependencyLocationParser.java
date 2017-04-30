@@ -44,7 +44,9 @@ public class DependencyLocationParser {
             Map<Integer, List<String>> locationMap = new HashMap<>();
             long currentTimeMillis = System.currentTimeMillis();
             for (int i = 0; i < dataSetSize; i++) {
-                String file = myFileReader.getFile(path + i + ".txt");
+                if (i == 70 | i == 71)
+                    continue;
+                String file = MyFileReader.getFile(path + i + ".txt");
                 if (!file.isEmpty()) {
                     Document document = new Document(file);
                     List<String> resultList = new ArrayList<>();
