@@ -1,5 +1,6 @@
 package parsers;
 
+import data.ParsedData;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.CoreLabelTokenFactory;
@@ -13,6 +14,7 @@ import java.io.StringReader;
 import java.sql.Time;
 import java.util.*;
 
+import static parsers.MyFileReader.getMappedDataSet;
 import static parsers.NERTaggerLocationParser.storeResultsToFile;
 
 public class DependencyLocationParser {
@@ -31,21 +33,17 @@ public class DependencyLocationParser {
         Collection<TypedDependency> listOfDependencies = grammaticalStructureOfSentence.typedDependenciesCollapsed();
 
         DependencyTree dependencyTree = new DependencyTree(listOfDependencies);
-        LocationParser locationParser = new LocationParser(listOfDependencies, dependencyTree);
+        LocationParser locationParser = new LocationParser(dependencyTree);
         return locationParser.getLocation();
     }
 
     public static void main(String[] args) {
-        if (args.length == 3) {
+        if (args.length == 2) {
             String path = args[0];
-            Integer dataSetSize = Integer.valueOf(args[1]);
-            String locationResultPath = args[2];
-            MyFileReader myFileReader = new MyFileReader();
+            String locationResultPath = args[1];
             Map<Integer, List<String>> locationMap = new HashMap<>();
-            long currentTimeMillis = System.currentTimeMillis();
-            for (int i = 0; i < dataSetSize; i++) {
-                if (i == 70 | i == 71)
-                    continue;
+            ParsedData mappedDataSet = getMappedDataSet("/home/arseny/metrics.txt");
+            for (String i : mappedDataSet.getTime().keySet()) {
                 String file = MyFileReader.getFile(path + i + ".txt");
                 if (!file.isEmpty()) {
                     Document document = new Document(file);
@@ -53,11 +51,10 @@ public class DependencyLocationParser {
                     for (Sentence sentence : document.sentences()) {
                         resultList.addAll(getLocationFromText(sentence.text()));
                     }
-                    locationMap.put(i, resultList);
+                    locationMap.put(Integer.parseInt(i), resultList);
                 }
                 System.out.println(i);
             }
-            System.out.println(new Date(currentTimeMillis).toString() + new Date(System.currentTimeMillis()).toString());
             storeResultsToFile(locationResultPath, locationMap);
         }
     }

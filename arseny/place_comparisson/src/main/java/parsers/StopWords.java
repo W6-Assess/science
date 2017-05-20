@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class StopWords {
-    private final String filename = "/home/arseny/Documents/diploma/stop_words.txt";
+    private final String filename = "/home/arseny/stop_words.txt";
     private Set<String> stopWords;
     public StopWords() {
         stopWords = new HashSet<>();

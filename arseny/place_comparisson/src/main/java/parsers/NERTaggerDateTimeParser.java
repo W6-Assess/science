@@ -41,6 +41,7 @@ public class NERTaggerDateTimeParser {
                         resultList.addAll(getDateTimeFromSentence(sentence));
                     }
                     locationMap.put(i, resultList);
+                    System.out.println(i);
                 }
             }
             storeResultsToFile(locationResultPath, locationMap);

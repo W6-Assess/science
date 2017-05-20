@@ -25,13 +25,11 @@ public class NERTaggerLocationParser {
         try {
             PrintWriter printWriter = new PrintWriter(filename);
             printWriter.println(locationMap.size());
-            locationMap.entrySet().forEach(
-                entry -> {
-                    printWriter.println(entry.getKey());
-                    printWriter.println(entry.getValue().size());
-                    entry.getValue().forEach(printWriter::println);
-                }
-            );
+            locationMap.forEach((key, value) -> {
+                printWriter.println(key);
+                printWriter.println(value.size());
+                value.forEach(printWriter::println);
+            });
             printWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,6 +53,7 @@ public class NERTaggerLocationParser {
                         resultList.addAll(getLocationsFromSentence(sentence));
                     }
                     locationMap.put(i, resultList);
+                    System.out.println(i);
                 }
             }
             storeResultsToFile(locationResultPath, locationMap);
